@@ -9,8 +9,6 @@ export class Customer {
     public street2?: string,
     public city?: string,
     public state = '',
-    public zip?: string,
-    public start = '',
-    public end = ''
+    public zip?: string
   ) {}
 }

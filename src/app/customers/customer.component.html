@@ -373,6 +373,84 @@
                 />
               </div>
             </div>
+
+            <!-- Array 2 -->
+            <div formArrayName="residents">
+              <div
+                [formGroupName]="j"
+                *ngFor="let resident of getResidents(address); let j = index"
+              >
+                <div class="form-group row mb-2">
+                  <label
+                    class="col-md-2 col-form-label"
+                    attr.for="{{ 'residentNameId' + j }}"
+                    >Resident Name</label
+                  >
+                  <div class="col-md-8">
+                    <input
+                      class="form-control"
+                      id="{{ 'residentNameId' + j }}"
+                      type="text"
+                      placeholder="Resident Name"
+                      formControlName="residentName"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group row mb-2">
+                  <label class="col-md-2 col-form-label pt-0">Gender</label>
+                  <div class="col-md-8">
+                    <div class="form-check form-check-inline">
+                      <label class="form-check-label">
+                        <input
+                          class="form-check-input"
+                          id="residentGenderId"
+                          type="radio"
+                          value="male"
+                          formControlName="residentGender"
+                        />Male
+                      </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <label class="form-check-label">
+                        <input
+                          class="form-check-input"
+                          id="residentGenderId"
+                          type="radio"
+                          value="female"
+                          formControlName="residentGender"
+                        />Female
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row mb-2">
+              <div class="col-md-4">
+                <button
+                  class="btn btn-outline-info"
+                  type="button"
+                  (click)="addResident(i)"
+                >
+                  Add Resident
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group row mb-2">
+              <div class="col-md-4">
+                <button
+                  class="btn btn-outline-danger"
+                  type="button"
+                  [disabled]="addresses.length === 1 ? true : false"
+                  (click)="removeAddress(i)"
+                >
+                  Remove Address
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -386,7 +464,11 @@
                   ? 'Add another mailing address'
                   : 'Disabled until the existing address data is valid'
               "
-              [disabled]="!addresses.valid"
+              [disabled]="
+                addresses.valid && addresses.length === 3
+                  ? addresses.valid
+                  : !addresses.valid
+              "
               (click)="addAddress()"
             >
               Add Another Address
@@ -394,6 +476,8 @@
           </div>
         </div>
       </div>
+      <!-- {{ addresses.valid }}
+      {{ addresses.length }} -->
 
       <div class="form-group row mb-2">
         <div class="offset-md-2 col-md-4">

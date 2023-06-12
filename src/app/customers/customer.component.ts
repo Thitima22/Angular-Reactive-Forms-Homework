@@ -65,6 +65,11 @@ export class CustomerComponent implements OnInit {
     return this.customerForm.get('addresses') as FormArray;
   }
 
+  getResidents(form: any) {
+    // console.warn('FUNC | getResidents : Form Data', form);
+    return form.controls.residents.controls;
+  }
+
   private validationMessages: any = {
     required: 'Please enter your email address.',
     email: 'Please enter a valid email address.',
@@ -114,6 +119,12 @@ export class CustomerComponent implements OnInit {
     this.addresses.push(this.buildAddress());
   }
 
+  addResident(i: number): void {
+    const customer = this.customerForm.get('addresses') as FormArray;
+    const residents = customer.at(i).get('residents') as FormArray;
+    residents.push(this.buildResident());
+  }
+
   buildAddress(): FormGroup {
     return this.fb.group({
       addressType: 'home',
@@ -122,7 +133,20 @@ export class CustomerComponent implements OnInit {
       city: '',
       state: '',
       zip: '',
+      residents: this.fb.array([this.buildResident()]),
     });
+  }
+
+  buildResident(): FormGroup {
+    return this.fb.group({
+      residentName: '',
+      residentGender: 'male',
+    });
+  }
+
+  removeAddress(i: number): void {
+    const customer = this.customerForm.get('addresses') as FormArray;
+    customer.removeAt(i);
   }
 
   populateTestData(): void {
